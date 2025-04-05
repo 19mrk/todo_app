@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>📅 Task Calendar View</h1>
+
+<div id="calendar" style="margin-top: 20px;"></div>
+
+<!-- FullCalendar JS and CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/main.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listWeek'
+            },
+            events: '/api/tasks',  // Flask route that returns tasks in JSON
+            eventColor: '#3788d8',
+            eventDisplay: 'block',
+            dateClick: function(info) {
+                alert('Date: ' + info.dateStr + '\nYou can add/view tasks here in a future update!');
+            }
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}
+

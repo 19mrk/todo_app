@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>📝 To-Do List</h1>
+
+<form method="POST" action="{{ url_for('main.add_task') }}">
+    <input name="title" placeholder="Task title" required>
+    <input name="description" placeholder="Description">
+    <input name="due_date" type="date" required>
+    <select name="priority">
+        <option>Low</option><option>Medium</option><option>High</option>
+    </select>
+    <input name="category" placeholder="Category">
+    <button type="submit">Add Task</button>
+
+  
+
+</form>
+
+<h2>Tasks</h2>
+<table>
+    <tr>
+        <th>Title</th><th>Due Date</th><th>Priority</th><th>Category</th><th>Status</th><th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.due_date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ task.priority }}</td>
+        <td>{{ task.category }}</td>
+        <td>{% if task.completed %}✅{% else %}❌{% endif %}</td>
+        <td>
+            <a href="{{ url_for('main.toggle_complete', task_id=task.id) }}">Toggle</a> |
+            <a href="{{ url_for('main.delete_task', task_id=task.id) }}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+
